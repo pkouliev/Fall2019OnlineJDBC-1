@@ -6,7 +6,7 @@ public class BasicTest {
 
 
     public static void main(String[] args) throws SQLException {
-        String URL = "jdbc:oracle:thin:@54.198.155.113:1521:xe";
+        String URL = "jdbc:oracle:thin:@3.90.175.72:1521:xe";
         String username = "hr";
         String password = "hr";
         //to establish connection with a database
@@ -46,16 +46,22 @@ public class BasicTest {
         System.out.println("Data type of first column: " + resultSetMetaData.getColumnTypeName(1));
 
         System.out.println("################");
+        /**
+         * The % means that what follows is an argument that will be formatted.
+         * Then follows a - resulting in left alignment.
+         * 15 fills the string up to a length of 15 characters (adding spaces at the end).
+         * Finally the s means, that you are formatting a string.
+         */
         //this loop will loop though columns
         for (int columnIndex = 1; columnIndex <= resultSetMetaData.getColumnCount(); columnIndex++) {
-            System.out.printf("%-15s", resultSetMetaData.getColumnName(columnIndex));
+            System.out.printf("%-20s", resultSetMetaData.getColumnName(columnIndex));
         }
         System.out.println("");
         //iterate rows
         while (resultSet.next()) {
             //iterate columns
             for (int columnIndex = 1; columnIndex <= resultSetMetaData.getColumnCount(); columnIndex++) {
-                System.out.printf("%-15s", resultSet.getString(columnIndex));
+                System.out.printf("%-20s", resultSet.getString(columnIndex));
             }
             System.out.println("");
         }
