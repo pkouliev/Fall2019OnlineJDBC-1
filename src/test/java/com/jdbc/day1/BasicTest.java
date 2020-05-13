@@ -19,11 +19,20 @@ public class BasicTest {
         //     * that underlies the <code>ResultSet</code>.
         //ResultSet.CONCUR_READ_ONLY : The constant indicating the concurrency mode for a ResultSet</code> object that may NOT be updated.
         Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
+        //in executeQuery method we provide query as a parameter
         ResultSet resultSet = statement.executeQuery("SELECT * FROM employees");
+        //resultSet.next() -- returns true until it reaches last row.
+        // and jumps to next row, if there is some row with data
+        while (resultSet.next()) {
+            //get data from 2nd column for every row
+            //2nd column is a first name info
+            System.out.println(resultSet.getString(1) + " " + resultSet.getString(2) + " " + resultSet.getString(3));
+        }
 
-        while(resultSet.next()){
-            System.out.println(resultSet.getString(2));
+        resultSet.beforeFirst(); // to comeback to the beginning of result set
+
+        while (resultSet.next()) {
+            System.out.println(resultSet.getString("salary"));
         }
 
         resultSet.close();
