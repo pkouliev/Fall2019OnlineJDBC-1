@@ -36,10 +36,13 @@ public class BasicTest {
         //some technical infomration about resultset
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
-        System.out.println("JDBC driver: "+databaseMetaData.getDriverName());
-        System.out.println("JDBC driver version: "+databaseMetaData.getDriverVersion());
-        System.out.println("Database name: "+databaseMetaData.getDatabaseProductName());
-        System.out.println("Database version: "+databaseMetaData.getDatabaseProductVersion());
+        System.out.println("JDBC driver: " + databaseMetaData.getDriverName());
+        System.out.println("JDBC driver version: " + databaseMetaData.getDriverVersion());
+        System.out.println("Database name: " + databaseMetaData.getDatabaseProductName());
+        System.out.println("Database version: " + databaseMetaData.getDatabaseProductVersion());
+
+        System.out.println("Number of columns: " + resultSetMetaData.getColumnCount());
+        System.out.println("Label of 1st column: " + resultSetMetaData.getColumnLabel(1));
 
 //        while (resultSet.next()) {
 //            System.out.println(resultSet.getString("salary"));
