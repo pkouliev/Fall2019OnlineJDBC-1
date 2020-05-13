@@ -31,9 +31,19 @@ public class BasicTest {
 
         resultSet.beforeFirst(); // to comeback to the beginning of result set
 
-        while (resultSet.next()) {
-            System.out.println(resultSet.getString("salary"));
-        }
+        //some technical information about database
+        DatabaseMetaData databaseMetaData = connection.getMetaData();
+        //some technical infomration about resultset
+        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+
+        System.out.println("JDBC driver: "+databaseMetaData.getDriverName());
+        System.out.println("JDBC driver version: "+databaseMetaData.getDriverVersion());
+        System.out.println("Database name: "+databaseMetaData.getDatabaseProductName());
+        System.out.println("Database version: "+databaseMetaData.getDatabaseProductVersion());
+
+//        while (resultSet.next()) {
+//            System.out.println(resultSet.getString("salary"));
+//        }
 
         resultSet.close();
         statement.close();
