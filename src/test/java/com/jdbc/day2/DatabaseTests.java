@@ -67,7 +67,6 @@ public class DatabaseTests {
 
         //to check if email exists
         String QUERY_TO_CHECK_IF_EMAIL_EXISTS = "SELECT COUNT(*) FROM employees WHERE email = 'zmahsu@hotmail.com'";
-
         ResultSet resultSet2 = statement.executeQuery(QUERY_TO_CHECK_IF_EMAIL_EXISTS);
 
         boolean emailExists = resultSet2.getInt(1) > 0; //if count is positive, it will true, means email exists
