@@ -1,5 +1,6 @@
 package com.jdbc.day2;
 
+import com.github.javafaker.Faker;
 import org.junit.Test;
 
 import java.sql.*;
@@ -63,16 +64,26 @@ public class DatabaseTests {
         String QUERY_GET_LAST_EMPLOYEE_ID = "SELECT MAX(employee_id) FROM employees"; // returns last employee id
         ResultSet resultSet = statement.executeQuery(QUERY_GET_LAST_EMPLOYEE_ID);//this object contains result set data
         //since employee_id is an integer, we use getInt("column index"), and + 1 to increment
+        resultSet.next();//to jump to the first row. Initially, pointer is outside of the table
         int employeeId = resultSet.getInt(1) + 1;
 
         //to check if email exists
-        String QUERY_TO_CHECK_IF_EMAIL_EXISTS = "SELECT COUNT(*) FROM employees WHERE email = 'zmahsu@hotmail.com'";
-        ResultSet resultSet2 = statement.executeQuery(QUERY_TO_CHECK_IF_EMAIL_EXISTS);
+        boolean emailExists = false;
+        String randomEmail = null;
 
-        boolean emailExists = resultSet2.getInt(1) > 0; //if count is positive, it will true, means email exists
+        do {
+            Faker faker = new Faker();
+            randomEmail = faker.internet().emailAddress();//to generate fake email
+            //randomEmail - every iteration will have different value
+            String QUERY_TO_CHECK_IF_EMAIL_EXISTS = "SELECT COUNT(*) FROM employees WHERE email = '" + randomEmail + "'";
+            ResultSet resultSet2 = statement.executeQuery(QUERY_TO_CHECK_IF_EMAIL_EXISTS);
+            resultSet2.next();//proceed to the first row
+            emailExists = resultSet2.getInt(1) > 0; //if count is positive, it will true, means email exists
+        } while (emailExists);//if count is positive, repeat steps again until email is unique
 
-        String QUERY = "INSERT INTO employees VALUES(" + employeeId + ", 'Ziyoda', 'Mahsut', 'zmahsu@hotmail.com', '508-598-6987', SYSDATE, 'IT_PROG', 15000, 0, NULL, NULL)";
-
+        String QUERY = "INSERT INTO employees VALUES(" + employeeId + ", 'Ziyoda', 'Mahsut', '" + randomEmail + "', '508-598-6987', SYSDATE, 'IT_PROG', 15000, 0, NULL, NULL)";
+        System.out.println("Query: " + QUERY);
+        ResultSet resultSet3 = statement.executeQuery(QUERY);
 
         resultSet.close();
         statement.close();
