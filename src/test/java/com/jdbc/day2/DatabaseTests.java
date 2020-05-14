@@ -21,5 +21,8 @@ public class DatabaseTests {
         ResultSet resultSet = statement.executeQuery(QUERY);
 
 
+        resultSet.close();
+        statement.close();
+        connection.close();
     }
 }
