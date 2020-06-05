@@ -1,8 +1,10 @@
 package com.jdbc.day3;
 
+import com.jdbc.utilities.DBUtils;
 import oracle.jdbc.OracleConnection;
 import org.junit.Test;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.Properties;
 
@@ -63,10 +65,8 @@ public class JDBCPractice {
     }
 
     /**
-     *
      * PreparedStatement helps to easier executed UPDATE statement
      * Good for batch execution
-     *
      */
     @Test
     public void preparedStatementTest() throws Exception {
@@ -89,5 +89,34 @@ public class JDBCPractice {
         resultSet.close();
         preparedStatement.close();
         connection.close();
+    }
+
+    @Test
+    public void metaDataTest() throws Exception {
+        //try with resources
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM employees")) {
+
+
+            DatabaseMetaData databaseMetaData = connection.getMetaData();//database properties, not data itself
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();//result set properties, not a data itself
+
+            while (resultSet.next()) {
+                for (int columnIndex = 1; columnIndex <= resultSetMetaData.getColumnCount(); columnIndex++) {
+                    System.out.print(resultSet.getObject(columnIndex) + " ");
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    @Test
+    public void dbUtilitiesTest() {
+        DBUtils.createConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+        System.out.println(DBUtils.getQueryResultMap("SELECT * FROM employees"));
+
+        DBUtils.destroy();
     }
 }
