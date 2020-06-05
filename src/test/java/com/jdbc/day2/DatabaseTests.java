@@ -80,7 +80,7 @@ public class DatabaseTests {
             resultSet2.next();//proceed to the first row
             emailExists = resultSet2.getInt(1) > 0; //if count is positive, it will true, means email exists
 
-        } while (emailExists && randomEmail.length() > 25);//if count is positive, repeat steps again until email is unique
+        } while (emailExists && randomEmail.length() > 24);//if count is positive, repeat steps again until email is unique
 
         String QUERY = "INSERT INTO employees VALUES(" + employeeId + ", '" + faker.name().firstName() + "', '" + faker.name().firstName() + "', '" + randomEmail + "', '508-598-6987', SYSDATE, 'IT_PROG', 15000, 0, NULL, NULL)";
         System.out.println("Query: " + QUERY);
